@@ -1,0 +1,1011 @@
+openapi: 3.0.0
+info:
+  title: TMF622 API Product Ordering - DISPATCHER
+  version: 1.0.1
+  description: >-
+    ## TMF API Reference : TMF 622 - Product Ordering Management
+
+
+    The Product Ordering API provides a standardized mechanism for placing a product order with all of the
+    necessary order parameters. The API consists of a simple set of operations that interact with
+    CRM/Order Negotiation systems in a consistent manner. A product order is created based on a product
+    offer that is defined in a catalog. The product offer identifies the product or set of products that
+    are available to a customer, and includes characteristics such as pricing, product options and market.
+    This API provide a task based resource to request order cancellation.
+
+
+    The product order references the product offer and identifies any specific requests made by the
+    customer.
+
+
+    ### Product Order resource
+
+    A Product Order is a type of order which can be used to place an order between a customer and a
+    service provider or between a service provider and a partner and vice versa. Main Product Order
+    attributes are its identifier, state, priority category (mass market, Enterprise, etc.) related dates
+    (start, completion, etc.), related billing account, related parties and order items. Main Order Items
+    (aka order lines) attributes are the ordered offering and product characteristics with the related
+    action to be performed (e.g. add or delete the products), state, location information for delivery,
+    order item price and price alteration.
+
+
+    ### Product Order API performs the following operations on product order :
+
+
+    -Retrieval of a product order or a collection of product orders depending on filter criteria
+
+    -Partial update of a product order (including updating rules)
+
+    -Creation of a product order (including default values and creation rules)
+servers:
+  - url: /productOrderingManagement/v2
+paths:
+  /productOrder:
+    post:
+      requestBody:
+        description: The ProductOrder to be created
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/ProductOrder_Create'
+        required: true
+      tags:
+        - productOrder
+      parameters:
+        - name: readyToProcess
+          description: >-
+            A boolean. An indicator which when the value is "true" means that requester expects to
+            start order processing immediately. If the indicator is true then no patch is allowed
+            after that.
+          schema:
+            default: false
+            type: boolean
+          in: query
+          required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+          description: OK
+        '400':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Bad Request
+        '401':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        '403':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+        '405':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Method Not allowed
+        '409':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Conflict
+        '500':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      operationId: createProductOrder
+      summary: Creates a ProductOrder
+      description: This operation creates a ProductOrder entity.
+  '/productOrder/{id}':
+    get:
+      tags:
+        - productOrder
+      parameters:
+        -
+          name: id
+          description: Identifier of the ProductOrder
+          schema:
+            type: string
+          in: path
+          required: true
+        -
+          name: fields
+          description: Comma-separated properties to provide in response
+          schema:
+            type: string
+          in: query
+          required: false
+      responses:
+        '200':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/ProductOrder'
+          description: Success
+        '400':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Bad Request
+        '401':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        '403':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+        '404':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found
+        '405':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Method Not allowed
+        '409':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Conflict
+        '500':
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      operationId: retrieveProductOrder
+      summary: Retrieves a ProductOrder by ID
+      description: >-
+        This operation retrieves a ProductOrder entity. Attribute selection is enabled for all first
+        level attributes.
+#    patch:
+#      requestBody:
+#        description: The ProductOrder to be updated
+#        content:
+#          application/json;charset=utf-8:
+#            schema:
+#              $ref: '#/components/schemas/ProductOrder_Update'
+#        required: true
+#      tags:
+#        - productOrder
+#      parameters:
+#        -
+#          name: id
+#          description: Identifier of the ProductOrder
+#          schema:
+#            type: string
+#          in: path
+#          required: true
+#        -
+#          name: readyToProcess
+#          description: >-
+#            A boolean. An indicator which when the value is "true" means that requester expects to
+#            start order processing immediately. If the indicator is true then no patch is allowed
+#            after that.
+#          schema:
+#            default: false
+#            type: boolean
+#          in: query
+#          required: false
+#      responses:
+#        '200':
+#          content:
+#            application/json;charset=utf-8:
+#              schema:
+#                $ref: '#/components/schemas/ProductOrder'
+#          description: Updated
+#        '400':
+#          content:
+#            application/json;charset=utf-8:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#          description: Bad Request
+#        '401':
+#          content:
+#            application/json;charset=utf-8:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#          description: Unauthorized
+#        '403':
+#          content:
+#            application/json;charset=utf-8:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#          description: Forbidden
+#        '404':
+#          content:
+#            application/json;charset=utf-8:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#          description: Not Found
+#        '405':
+#          content:
+#            application/json;charset=utf-8:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#          description: Method Not allowed
+#        '409':
+#          content:
+#            application/json;charset=utf-8:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#          description: Conflict
+#        '500':
+#          content:
+#            application/json;charset=utf-8:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#          description: Internal Server Error
+#      operationId: patchProductOrder
+#      summary: Updates partially a ProductOrder
+#      description: This operation updates partially a ProductOrder entity.
+components:
+  schemas:
+    BillingAccountRef:
+      description: Cuenta donde se factura la venta
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          description: >-
+            Id de la cuenta donde se factura venta.    La obligatoriedad depende de la
+            suscripcion.   No se informa suscripción -->  la cuenta de facturación es
+            obligatoria.  Se informa suscripción    -->  la cuenta de facturación no es
+            obligatoria, si se informa deberá ser la misma de la suscripción.
+          type: string
+        externalId:
+          description: ExternalId de la cuenta de facturación (AccountIntegrationId)
+          type: string
+        homeId:
+          description: Identificador del hogar donde se provisionan los productos.
+          type: string
+        name:
+          description: Name of the billing account
+          type: string
+    ContactRef:
+      description: Datos de un contacto
+      type: object
+      properties:
+        documentNumber:
+          description: Número de Documento
+          type: string
+        documentType:
+          description: Tipo de Documento
+          enum:
+            - DNI
+          type: string
+        firtName:
+          description: Nombre
+          type: string
+        lastName:
+          description: Apellido
+          type: string
+    CurrentStatus:
+      description: Estado de procesamiento de la orden.
+      required:
+        - name
+      type: object
+      properties:
+        vlocityStatus:
+          description: >-
+            Corresponde al estado de la orden en Vlocity.  Este estado se retorna solo cuando se
+            generó la orden en el CRM.
+          type: string
+        previousStates:
+          description: ''
+          type: array
+          items:
+            type: string
+        nextStates:
+          type: array
+          items:
+            type: string
+        name:
+          description: 'Estado de procesamiento de la orden. '
+          enum:
+            - Acknowledged
+            - InProgress
+            - Pending
+            - Rejected
+            - Held
+            - AssessingCancellation
+            - PendingCancellation
+            - Cancelled
+            - Completed
+            - Failed
+            - Partial
+            - Unknown
+          type: string
+        description:
+          description: Breve description del estado del procesamiento retornado.
+          type: string
+          example: >-
+            Este estado indica que la orden fue aceptada para procesarse, pero aun es factible de
+            ser editada por el consumidor
+        defaultPreviousStatus:
+          description: ''
+          type: string
+          example: PENDING
+        defaultNextStatus:
+          description: ''
+          type: string
+    Delivery:
+      description: Datos referentes a la forma de entrega seleccionada.
+      required:
+        - type
+        - id
+      type: object
+      properties:
+        type:
+          description: Tipo de Delivery Seleccionado
+          enum:
+            - Delivery
+            - Store Pickup
+          type: string
+        subtype:
+          description: Subtipo de entrega por delivery seleccionada
+          enum:
+            - Envío Estándar
+            - Envío Express
+            - Retiro en Sucursal de Correo
+          type: string
+        id:
+          description: Identificador único del delivery seleccionado
+          type: string
+        pointOfPickUp:
+          description: >-
+            En el caso de seleccionar retiro en un punto de venta informa el identificador único
+            del businessSite seleccionado.
+          type: string
+        postOfficePickUp:
+          description: >-
+            En el caso de seleccionar retiro en sucursal de correo se informa el identificador
+            único del businessSite
+          type: string
+        shippingRangeHours:
+          description: >-
+            Rango de horas seleccionado cuando el método de entrega es “Delivery” y el tipo es
+            “Retiro en Sucursal de Correo”
+          type: string
+        geographicAddress:
+          $ref: '#/components/schemas/GeographicAddress'
+        authorizedContact:
+          $ref: '#/components/schemas/ContactRef'
+    FieldsToUpdate:
+      description: Valores a actualizar en el Orden Item para los productos  Número de Movil y Toip.
+      type: object
+      properties:
+        field:
+          description: Nombre del atributo a actualizar
+          enum:
+            - MSISDN
+            - TOIP
+            - ICCID
+            - IMSI
+            - KI
+            - SERIAL
+          type: string
+        value:
+          description: Número de línea móvil o toip que se asigna
+          type: string
+    FinantialPromotion:
+      description: Datos de financiaciones aplicadas.
+      type: object
+      properties:
+        id:
+          description: Identificador de salesforce de la financiación seleccionada.
+          type: string
+        paymentRef:
+          description: payment.id relacionado a la financiación aplicada.
+          type: string
+    GeographicAddress:
+      description: Domicilio de entrega.
+      required:
+        - id
+        - street
+        - city
+        - state
+        - streetNumber
+      type: object
+      properties:
+        id:
+          description: >-
+            Identificador único de un domicilio del cliente.  Si se informa un id se ignorará los
+            datos del domicilio.
+          type: string
+        name:
+          description: ''
+          type: string
+        streetNumber:
+          description: ''
+          type: string
+        street:
+          description: Nombre de la calle
+          type: string
+        floor:
+          description: ''
+          type: string
+        doorNumber:
+          description: ''
+          type: string
+        municipality:
+          description: Nombre del municipio.
+          type: string
+        city:
+          description: Nombre de la localidad.
+          type: string
+        province:
+          description: 'Código que identifica a la provincia seleccionada.  Por ej. "B", "X"'
+          type: string
+        country:
+          description: ''
+          type: string
+        zipcode:
+          description: Código postal.  Por ej. 1424
+          type: string
+        addressNote:
+          description: Comentarios adicionales del domicilio
+          type: string
+        geo:
+          description: 'Coordenadas geograficas x=latitud, y=longitud'
+          type: object
+          properties:
+            x:
+              format: float
+              description: Latitud
+              type: number
+            'y':
+              format: float
+              description: Longitud
+              type: number
+    OrderItemActionType:
+      description: >-
+        Acción a realizar al producto. Add --> Alta Disconnect --> Baja Existing --> corresponde a los
+        productos ya existentes. Esta opción debe ser usada para informar los productos existentes en
+        operaciones de MACD. Change --> corresponde a productos existentes a los cualesse les
+        modifican atributos por ejemplo el producto SIMCARD para la gestion Cambio de SIM.
+      enum:
+        - Add
+        - Existing
+        - Disconnect
+        - Change
+      type: string
+    PaymentMethodRef:
+      description: >-
+        Define un metodo de pago, con atributos comunes, y una estructura especifica para cada metodo.
+        Por ahora solo soporta tarjeta bancaria.
+      required:
+        - paymentMethodType
+      type: object
+      properties:
+        paymentMethodID:
+          description: ''
+          type: string
+        paymentMethodToken:
+          description: ''
+          type: string
+        paymentMethodType:
+          description: >-
+            Tipo de metodo de pago, por ahora solo soporta tarjetas bancarias. CBS tiene una lista
+            codificada, para el caso de factura de trafico Switch va fijo '2001' (Tarjeta de
+            Credito)
+          type: string
+        bankCard:
+          $ref: '#/components/schemas/PaymentMethodBankCard'
+    PaymentMethodBankCard:
+      description: Estructura de metodo de pago para tarjeta bancaria
+      required:
+        - cardType
+        - cardNumber
+        - expirationDate
+      type: object
+      properties:
+        cardBrand:
+          description: Entity code de la tarjeta de crédito.
+          type: string
+        cardType:
+          description: Tipo de tarjeta (C/D)
+          enum:
+            - Debit
+            - Credit
+          type: string
+        cardNumber:
+          description: Numero completo de tarjeta encriptado
+          type: string
+        expirationDate:
+          format: date
+          description: Fecha de expiracion de la tarjeta
+          type: string
+        lastFourDigits:
+          description: Ultimos cuatro digitos de la tarjeta
+          type: string
+        issuer:
+          $ref: '#/components/schemas/BankCardIssuer'
+        holder:
+          $ref: '#/components/schemas/BankCardHolder'
+    BankCardIssuer:
+      description: Estructura de entidad emisora de una tarjeta bancaria
+      type: object
+      properties:
+        issuerCode:
+          description: >-
+            Codigo de entidad emisora. CBS tiene una lista codificada de bancos. Ej. 262 para Bank
+            of America
+          type: string
+        issuerName:
+          description: Nombre de la entidad emisora
+          type: string
+    BankCardHolder:
+      description: Estructura de titular de una tarjeta bancaria
+      type: object
+      properties:
+        firstName:
+          description: Nombre del titular de la tarjeta.
+          type: string
+        lastName:
+          description: Apellido del titular de la tarjeta.
+          type: string
+        fullName:
+          description: Nombre completo como aparece en la tarjeta.
+          type: string
+        identificationType:
+          description: Tipo de documento.
+          enum:
+            - DNI
+            - LEN
+            - PAS
+          type: string
+        identificationNumber:
+          description: Nro de documento.
+          type: string
+    PaymentRef:
+      description: Datos de los pagos imputados
+      required: []
+      type: object
+      properties:
+        id:
+          description: >-
+            Identificador único del pago en salesforce. Se informa cuando el pago ya se encuentre
+            registrado en salesforce. Al recibir este Id se ignora el resto de la información de
+            payment. Se validará su existencia en el CRM y lo relacionará a la orden de venta.
+          type: string
+        name:
+          description: A name for the payment
+          type: string
+        paymentAmount:
+          description: vlocity_cmt__Amount__c
+          type: object
+          properties:
+            unit:
+              description: Moneda expresada en codigo ISO de 3 caracteres ('ARS' para pesos)
+              type: string
+            value:
+              format: float
+              description: Monto del pago.
+              type: number
+        installmentsQty:
+          description: Nro de cuotas
+          type: string
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethodRef'
+        externalId:
+          description: Identificar único del pago en CBS. PaymentCode retornado por CBS.
+          type: string
+    ProductRef:
+      description: ''
+      type: object
+      properties:
+        id:
+          description: Id salesforce de producto o promoción
+          type: string
+        code:
+          description: Código de producto o promoción
+          type: string
+        type:
+          enum:
+            - Product
+            - Promotion
+          type: string
+        baseType:
+          description: Tipo de interface
+          enum:
+            - Offering
+          type: string
+        referredType:
+          description: >-
+            Tipo de aplicación del producto. MainProduct --> Productos que se pueden vender a
+            clientes.  Nuevas suscripciones. AditionalProduct --> Corresponde a productos que
+            pertenecen a la estructura de productos de una suscripcion. BundleProduct -->
+            Corresponde a los productos de tipo bundle.
+          enum:
+            - MainProduct
+            - AditionalProduct
+            - BundleProduct
+          type: string
+        name:
+          description: Nombre del producto o promoción.
+          type: string
+        pricebookEntryId:
+          description: Solo aplica para type=Product
+          type: string
+        productHierarchyPath:
+          description: Jerarquía de id de productos. Solo aplica para type=Product
+          type: string
+        parentProductCode:
+          description: >-
+            Código del Producto del Padre, en caso de que el productCode se encuentre en la
+            estructura de otro producto.  Este campo se debe enviar para el alta del producto.
+              Este dato se debe obtener del Offering.
+          type: string
+        parentPriceBookeEntryID:
+          description: >-
+            Id del Price Book Entry del Padre, en caso de que el productCode  se encuentre en la
+            estructura de otro producto. Este campo se debe enviar para el alta del Producto.
+              Este dato se debe obtener del Offering
+          type: string
+        products:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductRef'
+        deliverable:
+          description: Identifica si el producto es un tangible
+          type: boolean
+        fieldToUpdate:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldsToUpdate'
+        href:
+          description: ''
+          type: string
+    ProductOfferingRef:
+      description: ''
+      required:
+        - code
+        - pricebookEntryId
+        - productHierarchyPath
+      type: object
+      properties:
+        id:
+          description: Id salesforce de producto o promoción
+          type: string
+          example: 02i2F000003Rmzs
+        code:
+          description: Código de producto o promoción
+          type: string
+          example: PO_MOVIL_PTIB5
+        type:
+          enum:
+            - Product
+            - Promotion
+          type: string
+        baseType:
+          description: Tipo de interface
+          enum:
+            - Offering
+          type: string
+        referredType:
+          description: >-
+            Tipo de aplicación del producto. MainProduct --> Productos que se pueden vender a
+            clientes.  Nuevas suscripciones. AditionalProduct --> Corresponde a productos que
+            pertenecen a la estructura de productos de una suscripcion. BundleProduct -->
+            Corresponde a los productos de tipo bundle.
+          enum:
+            - MainProduct
+            - AditionalProduct
+            - BundleProduct
+          type: string
+        pricebookEntryId:
+          description: Solo aplica para type=Product
+          type: string
+        productHierarchyPath:
+          description: Jerarquía de id de productos. Solo aplica para type=Product
+          type: string
+        parentProductCode:
+          description: >-
+            Código del Producto del Padre, en caso de que el productCode se encuentre en la
+            estructura de otro producto.  Este campo se debe enviar para el alta del producto.
+              Este dato se debe obtener del Offering.
+          type: string
+        parentPriceBookeEntryID:
+          description: >-
+            Id del Price Book Entry del Padre, en caso de que el productCode  se encuentre en la
+            estructura de otro producto. Este campo se debe enviar para el alta del Producto.
+              Este dato se debe obtener del Offering
+          type: string
+        products:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductRef'
+        deliverable:
+          description: Identifica si el producto es un tangible
+          type: boolean
+        fieldToUpdate:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldsToUpdate'
+        href:
+          description: ''
+          type: string
+        name:
+          description: Nombre del producto o promoción
+          type: string
+
+    ProductOrder:   #get
+      description: Estructura de respuesta para productOrder
+      required:
+        - orderItems
+      type: object
+      properties:
+        id:
+          description: Número de orden de venta.
+          type: string
+        currentStatus:
+          $ref: '#/components/schemas/CurrentStatus'
+        issuesTracking:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssueTrack'
+        href:
+          description: Hyperlink to access the order
+          type: string
+        description:
+          description: Description of the product order
+          type: string
+        externalId:
+          description: Id Externo de la Orden que fue informado al crear la orden.
+          type: string
+        createdDate:
+          format: date-time
+          description: Fecha de creación de la orden
+          type: string
+        lastModifiedDate:
+          format: date-time
+          description: Fecha de última modificación de la orden
+          type: string
+        orderItems:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOrderItem'
+        baseType:
+          description: 'When sub-classing, this defines the super-class'
+          type: string
+        schemaLocation:
+          format: uri
+          description: A URI to a JSON-Schema file that defines additional attributes and relationships
+          type: string
+        type:
+          description: 'When sub-classing, this defines the sub-class entity name'
+          type: string
+
+    ProductOrder_Create: #post
+      description: >-
+        Definition de request para crear una orden de venta en el CRM FAN Skipped properties:
+        id,href,completionDate,orderDate,state,expectedCompletionDate,productOrderItem.state
+      required:
+        - orderItems
+        - channel
+      type: object
+      properties:
+        category:
+          description: Operación a realizar
+          enum:
+            - NEW
+            - CHANGE
+          type: string
+        externalId:
+          description: 'Id Externo de la Orden. '
+          type: string
+        subscription:
+          $ref: '#/components/schemas/Subscription'
+        billingAccount:
+          $ref: '#/components/schemas/BillingAccountRef'
+        channel:
+          $ref: '#/components/schemas/RelatedChannel'
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentRef'
+        orderItems:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOrderItem'
+        finantialPromotions:
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/FinantialPromotion'
+        deliveries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Delivery'
+        relatedEntity:
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedEntityRef'
+    ProductOrderItem:
+      description: 'Lista de productos o promocion que se incluye en la orden. '
+      required:
+        - id
+        - action
+      type: object
+      properties:
+        id:
+          description: Identificador externo del item de la orden
+          type: string
+        action:
+          $ref: '#/components/schemas/OrderItemActionType'
+        productOffering:
+          $ref: '#/components/schemas/ProductOfferingRef'
+        deliveryRef:
+          description: Corresponde al identificador de la forma de delivery seleccionada.
+          type: string
+        baseType:
+          description: 'When sub-classing, this defines the super-class'
+          type: string
+        schemaLocation:
+          format: uri
+          description: A URI to a JSON-Schema file that defines additional attributes and relationships
+          type: string
+        type:
+          description: 'When sub-classing, this defines the sub-class entity name'
+          type: string
+    ProductOrder_Update:
+      description: ''
+      type: object
+      properties:
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentRef'
+    RelatedChannel:
+      description: 'Canal de venta. '
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          description: Unique identifier of a related entity.
+          type: string
+        name:
+          description: Nombre del Canal.
+          enum:
+            - E-Commerce
+            - WEB
+            - APP
+            - IVR
+          type: string
+        role:
+          description: Role playing by the channel.
+          type: string
+    RelatedEntityRef:
+      description: Invoice --> Datos de la factura relacionada
+      type: object
+      properties:
+        id:
+          description: Nro de prefactura para el role invoice
+          type: string
+        name:
+          description: Factura legal para el role invoice
+          type: string
+        role:
+          description: ''
+          enum:
+            - invoice
+          type: string
+    IssueTrack:
+      description: ''
+      type: object
+      properties:
+        currentStatus:
+          description: Estado original de la orden.
+          type: string
+        requestedStatus:
+          description: Estado al que se pasa la orden.
+          type: string
+        issue:
+          description: Descripción de la transición
+          type: string
+        issueDate:
+          format: date-time
+          description: Fecha de la transición
+          type: string
+    Subscription:   #sub_post
+      description: Datos de la suscripción.    Solo se informa para category="CHANGE"
+      type: object
+      properties:
+        id:
+          description: Id Salesforce del asset de la suscription
+          type: string
+        subscriptionId:
+          description: Id de la suscripcion
+          type: string
+        msisdn:
+          description: Corresponde al número de línea móvil
+          type: string
+        primaryIdentity:
+          description: Corresponde al resourceId del asset.
+          type: string
+        lineNumber:
+          description: Corresponde al número de línea Fija
+          type: string
+    Error:  #post #get
+      description: 'Used when an API throws an Error, typically with a HTTP error response-code (3xx, 4xx, 5xx)'
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          description: 'Application relevant detail, defined in the API or a common list.'
+          type: string
+        reason:
+          description: Explanation of the reason for the error which can be shown to a client user.
+          type: string
+        message:
+          description: >-
+            More details and corrective actions related to the error which can be shown to a
+            client user.
+          type: string
+        status:
+          description: HTTP Error code extension
+          type: string
+        referenceError:
+          format: uri
+          description: URI of documentation describing the error.
+          type: string
+        '@baseType':
+          description: 'When sub-classing, this defines the super-class.'
+          type: string
+        '@schemaLocation':
+          format: uri
+          description: A URI to a JSON-Schema file that defines additional attributes and relationships
+          type: string
+        '@type':
+          description: 'When sub-classing, this defines the sub-class entity name.'
+          type: string
+
+    CreateOrderResponse:  #post
+      description: ''
+      type: object
+      properties:
+        orderId:
+          description: Id correspondiente a la orden generada
+          type: string
+        status:
+          description: Estado de la orden
+          type: string
+      example:
+        orderId: 5f7dac6cd65fb06f01ef23ac
+        status: IN PROGRESS
+tags:
+  -
+    name: productOrder
