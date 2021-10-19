@@ -4,26 +4,22 @@ import com.vietsherlock.datastore.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-//import org.threeten.bp.OffsetDateTime;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class DataStoreService {
 
     private static final Logger logger = LoggerFactory.getLogger(DataStoreService.class);
 
-    List<ProductOrder> productOrderList = getAll();
-
-//    DataStoreService(){
-//        productOrderList = getAll();
-//    }
+    List<ProductOrder> productOrderList = new ArrayList<>();
+    List<ProductOrderCreate> productOrderCreates = new ArrayList<>();
+    CreateOrderResponse createOrderResponse = new CreateOrderResponse();
 
     public List<ProductOrder> getAll(){
-
-        List<ProductOrder> productOrderList = new ArrayList<>();
 
         ProductOrder productOrder1 = new ProductOrder();
 
@@ -148,7 +144,6 @@ public class DataStoreService {
         return productOrderList;
     }
 
-
     public ProductOrder getProductOrderByID(String id){
 
         logger.info("The getProductOrderByID function has been called where the ProductOrder data by id is stored");
@@ -161,10 +156,16 @@ public class DataStoreService {
         return productOrder;
     }
 
-    public void addProductOrder(ProductOrder productOrder){
+    public CreateOrderResponse addProductOrder(ProductOrderCreate productOrderCreate){
 
-        productOrderList.add(productOrder);
+        productOrderCreates.add(productOrderCreate);
+        logger.info("Product order is created!");
+        // set create order response
+        createOrderResponse.setOrderId(String.valueOf(new Random().nextInt(10)*10));
+        logger.info("random ID: " + String.valueOf(new Random().nextInt(10)*10));
+        createOrderResponse.setStatus("IN PROGRESS");
 
+        return createOrderResponse;
     }
 
 
