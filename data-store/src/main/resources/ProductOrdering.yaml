@@ -108,6 +108,7 @@ paths:
       operationId: createProductOrder
       summary: Creates a ProductOrder
       description: This operation creates a ProductOrder entity.
+
   '/productOrder/{id}':
     get:
       tags:
@@ -181,87 +182,7 @@ paths:
       description: >-
         This operation retrieves a ProductOrder entity. Attribute selection is enabled for all first
         level attributes.
-#    patch:
-#      requestBody:
-#        description: The ProductOrder to be updated
-#        content:
-#          application/json;charset=utf-8:
-#            schema:
-#              $ref: '#/components/schemas/ProductOrder_Update'
-#        required: true
-#      tags:
-#        - productOrder
-#      parameters:
-#        -
-#          name: id
-#          description: Identifier of the ProductOrder
-#          schema:
-#            type: string
-#          in: path
-#          required: true
-#        -
-#          name: readyToProcess
-#          description: >-
-#            A boolean. An indicator which when the value is "true" means that requester expects to
-#            start order processing immediately. If the indicator is true then no patch is allowed
-#            after that.
-#          schema:
-#            default: false
-#            type: boolean
-#          in: query
-#          required: false
-#      responses:
-#        '200':
-#          content:
-#            application/json;charset=utf-8:
-#              schema:
-#                $ref: '#/components/schemas/ProductOrder'
-#          description: Updated
-#        '400':
-#          content:
-#            application/json;charset=utf-8:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#          description: Bad Request
-#        '401':
-#          content:
-#            application/json;charset=utf-8:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#          description: Unauthorized
-#        '403':
-#          content:
-#            application/json;charset=utf-8:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#          description: Forbidden
-#        '404':
-#          content:
-#            application/json;charset=utf-8:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#          description: Not Found
-#        '405':
-#          content:
-#            application/json;charset=utf-8:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#          description: Method Not allowed
-#        '409':
-#          content:
-#            application/json;charset=utf-8:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#          description: Conflict
-#        '500':
-#          content:
-#            application/json;charset=utf-8:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#          description: Internal Server Error
-#      operationId: patchProductOrder
-#      summary: Updates partially a ProductOrder
-#      description: This operation updates partially a ProductOrder entity.
+
 components:
   schemas:
     BillingAccountRef:
