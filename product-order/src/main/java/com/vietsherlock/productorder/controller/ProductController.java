@@ -25,38 +25,38 @@ public class ProductController implements ProductOrderApi {
 
     ProductOrderMapper productOrderMapper;
 
-    @RequestMapping(value = "/a", method = RequestMethod.POST)
-    public ResponseEntity<ProductOrderCreate> testController(@Validated @RequestBody ProductOrderCreate body){
-        logger.info("into test post");
-        logger.info("ProductOrderCreate " + body);
-        return new ResponseEntity<>(body, HttpStatus.OK);
+    @Autowired
+    ProductController(){
+        this.productOrderMapper = new ProductOrderMapperImpl();
     }
 
     @Override
     public ResponseEntity<CreateOrderResponse> createProductOrder(ProductOrderCreate body, Boolean readyToProcess) {
         logger.info("createProductOrder method is called!");
 
-//        ApiClient apiClient = new ApiClient();
-////        apiClient.setBasePath("http://localhost:8081/productOrderingManagement/v2");
-//        apiClient.setBasePath("http://localhost:8081");
-//        com.vietsherlock.productorder.restclient.api.ProductOrderApi productOrderApi_Client
-//                = new com.vietsherlock.productorder.restclient.api.ProductOrderApi(apiClient);
-//
-//        //mapper ProductOrderCreate server to client
-//        com.vietsherlock.productorder.restclient.model.ProductOrderCreate productOrderCreate_Client
-//                = productOrderMapper.productOrderCreateServerToClient(body);
-//
-//        //create productOrderCreate and receive CreateOrderResponse client type
-//        com.vietsherlock.productorder.restclient.model.CreateOrderResponse createOrderResponse_Client
-//            = productOrderApi_Client.createProductOrder(productOrderCreate_Client, readyToProcess);
-//        logger.info("CreateOrderResponse response to data-store microservice! " + createOrderResponse_Client);
-//
-//        return new ResponseEntity<>(
-//                productOrderMapper.createOrderResponseClientToServer(createOrderResponse_Client)
-//                , HttpStatus.ACCEPTED
-//        );
+        ApiClient apiClient = new ApiClient();
+//        apiClient.setBasePath("http://localhost:8081/productOrderingManagement/v2");
+        apiClient.setBasePath("http://localhost:8081");
+        com.vietsherlock.productorder.restclient.api.ProductOrderApi productOrderApi_Client
+                = new com.vietsherlock.productorder.restclient.api.ProductOrderApi(apiClient);
+        logger.info("productOrderApi_Client is created: " + productOrderApi_Client);
+        logger.info("resquest body: " + body);
+        //mapper ProductOrderCreate server to client
+        com.vietsherlock.productorder.restclient.model.ProductOrderCreate productOrderCreate_Client
+                = productOrderMapper.productOrderCreateServerToClient(body);
 
-        return new ResponseEntity<>(new CreateOrderResponse(), HttpStatus.OK);
+        logger.info("mapper ProductOrderCreate server to client: " + productOrderCreate_Client);
+
+        //create productOrderCreate and receive CreateOrderResponse client type
+        com.vietsherlock.productorder.restclient.model.CreateOrderResponse createOrderResponse_Client
+            = productOrderApi_Client.createProductOrder(productOrderCreate_Client, readyToProcess);
+        logger.info("CreateOrderResponse response to data-store microservice! " + createOrderResponse_Client);
+
+        return new ResponseEntity<>(
+                productOrderMapper.createOrderResponseClientToServer(createOrderResponse_Client)
+                , HttpStatus.ACCEPTED
+        );
+
     }
 
 //        @RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)

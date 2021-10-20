@@ -63,27 +63,20 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.12.1</version>
+			<artifactId>jackson-annotations</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>5.3.4</version>
-		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework</groupId>-->
-<!--			<artifactId>spring-web</artifactId>-->
-<!--			<version>5.3.4</version>-->
-<!--		</dependency>-->
-		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-models</artifactId>
 			<version>1.6.3</version>
 		</dependency>
 		<dependency>
@@ -92,11 +85,6 @@
 			<version>2.0.1.Final</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.threeten</groupId>
-			<artifactId>threetenbp</artifactId>
-			<version>1.5.1</version>
-		</dependency>
 
 		<!-- mapstruct dependency -->
 		<dependency>
