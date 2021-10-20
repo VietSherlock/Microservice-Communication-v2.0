@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,22 +24,27 @@ public class DataStoreController implements ProductOrderApi {
 
     private static final Logger logger = LoggerFactory.getLogger(DataStoreController.class);
 
+//    @RequestMapping(value = "/a", method = RequestMethod.POST)
+//    public ResponseEntity<ProductOrderCreate> testController(@Validated @RequestBody ProductOrderCreate body){
+//        logger.info("into test post");
+//        logger.info("ProductOrderCreate " + body);
+//        return new ResponseEntity<>(body, HttpStatus.OK);
+//    }
+
 //    @RequestMapping(value = "/productOrder", method = RequestMethod.POST)
     @Override
     public ResponseEntity<CreateOrderResponse> createProductOrder(ProductOrderCreate body, Boolean readyToProcess) {
-
-        logger.info("createProductOrder function in data-store microservice is called!");
-
+        logger.info("POST method in DataStoreController is called!");
         CreateOrderResponse createOrderResponse = dataStoreService.addProductOrder(body);
-        logger.info("CreateOrderResponse is " + createOrderResponse);
-
-        return new ResponseEntity<>(createOrderResponse, HttpStatus.OK);
+//        logger.info("Create Order Response Object: " + createOrderResponse);
+        logger.info("ProductOrderCreate" + body);
+        return new ResponseEntity<>(createOrderResponse, HttpStatus.CREATED);
     }
 
 //    @RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
     @Override
     public ResponseEntity<ProductOrder> retrieveProductOrder(String id, String fields) {
-        logger.info("DataStore controller is called!");
+        logger.info("Get method in DataStoreController is called!");
         return new ResponseEntity<>(dataStoreService.getProductOrderByID(id), HttpStatus.OK);
     }
 }

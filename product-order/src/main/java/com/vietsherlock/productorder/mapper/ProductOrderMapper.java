@@ -4,7 +4,6 @@ import com.vietsherlock.productorder.restclient.model.ProductOrderCreate;
 import com.vietsherlock.productorder.server.models.CreateOrderResponse;
 import com.vietsherlock.productorder.server.models.ProductOrder;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper
 public interface ProductOrderMapper {

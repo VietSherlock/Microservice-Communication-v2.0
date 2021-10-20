@@ -157,12 +157,11 @@ public class DataStoreService {
     }
 
     public CreateOrderResponse addProductOrder(ProductOrderCreate productOrderCreate){
-
         productOrderCreates.add(productOrderCreate);
         logger.info("Product order is created!");
         // set create order response
-        createOrderResponse.setOrderId(String.valueOf(new Random().nextInt(10)*10));
-        logger.info("random ID: " + String.valueOf(new Random().nextInt(10)*10));
+//        createOrderResponse.setOrderId(String.valueOf(new Random().nextInt(10)*10 + 10));
+        createOrderResponse.setOrderId("5f7dac6cd65fb06f01ef23ac");
         createOrderResponse.setStatus("IN PROGRESS");
 
         return createOrderResponse;
