@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface ProductOrderRepository extends MongoRepository<ProductOrder, String> {
-//public interface ProductOrderRepository extends JpaRepository<ProductOrder, String> {
 
 //    ProductOrder findById(String id);
     ProductOrder findAllById(String id);

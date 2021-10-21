@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +32,11 @@ public class DataStoreController implements ProductOrderApi {
         this.dataStoreService = dataStoreService;
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public ResponseEntity<List<ProductOrder>> getAllProductOrder(){
-        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
+    //@RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
+    @Override
+    public ResponseEntity<ProductOrder> retrieveProductOrder(String id, String fields) {
+        logger.info("Get method in DataStoreController is called!");
+        return new ResponseEntity<>(dataStoreService.getProductOrderByID(id), HttpStatus.OK);
     }
 
     //@RequestMapping(value = "/productOrder", method = RequestMethod.POST)
@@ -41,15 +44,21 @@ public class DataStoreController implements ProductOrderApi {
     public ResponseEntity<CreateOrderResponse> createProductOrder(ProductOrderCreate body, Boolean readyToProcess) {
         logger.info("POST method in DataStoreController is called!");
         CreateOrderResponse createOrderResponse = dataStoreService.addProductOrder(body);
-//        logger.info("Create Order Response Object: " + createOrderResponse);
-//        logger.info("ProductOrderCreate" + body);
+        logger.info("Create Order Response Object: " + createOrderResponse);
+
         return new ResponseEntity<>(createOrderResponse, HttpStatus.CREATED);
     }
 
-    //@RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
-    @Override
-    public ResponseEntity<ProductOrder> retrieveProductOrder(String id, String fields) {
-        logger.info("Get method in DataStoreController is called!");
-        return new ResponseEntity<>(dataStoreService.getProductOrderByID(id), HttpStatus.OK);
+
+    //    get all product order in mongodb database
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductOrder>> getAllProductOrder(){
+        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
+    }
+
+    //    save a document in ProductOrder collections
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ResponseEntity<ProductOrder> saveProductOrder(@RequestBody ProductOrder productOrder){
+        return new ResponseEntity<>(productOrderRepository.save(productOrder), HttpStatus.CREATED);
     }
 }

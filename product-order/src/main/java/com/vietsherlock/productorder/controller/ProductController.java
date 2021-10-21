@@ -12,24 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProductController implements ProductOrderApi {
 
     Logger logger = LoggerFactory.getLogger(ProductController.class);
-
-    ProductOrderMapper productOrderMapper;
+    ProductOrderMapper productOrderMapper = new ProductOrderMapperImpl();
     ApiClient apiClient = new ApiClient();
-
-    @Autowired
-    ProductController(){
-        this.productOrderMapper = new ProductOrderMapperImpl();
-    }
 
     @Override
     public ResponseEntity<CreateOrderResponse> createProductOrder(ProductOrderCreate body, Boolean readyToProcess) {
@@ -56,7 +46,7 @@ public class ProductController implements ProductOrderApi {
 
     }
 
-//        @RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
+    //@RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
     @Override
     public ResponseEntity<ProductOrder> retrieveProductOrder(String id, String fields) {
 
