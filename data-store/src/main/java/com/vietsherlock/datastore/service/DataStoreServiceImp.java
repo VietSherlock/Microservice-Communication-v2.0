@@ -27,9 +27,9 @@ public class DataStoreServiceImp implements DataStoreService{
     }
 
     public CreateOrderResponse addProductOrder(ProductOrderCreate productOrderCreate){
-        CreateOrderResponse createOrderResponse = new CreateOrderResponse();
         ProductOrderCreate productOrderCreated = productOrderCreateRepository.save(productOrderCreate);
 
+        CreateOrderResponse createOrderResponse = new CreateOrderResponse();
         createOrderResponse.setOrderId("" + productOrderCreated.getExternalId());
         createOrderResponse.setStatus("IN PROGRESS");
         return createOrderResponse;
