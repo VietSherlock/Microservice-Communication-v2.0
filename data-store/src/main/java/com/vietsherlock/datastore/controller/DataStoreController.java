@@ -23,15 +23,17 @@ import java.util.List;
 public class DataStoreController implements ProductOrderApi {
 
     private static final Logger logger = LoggerFactory.getLogger(DataStoreController.class);
-    private final DataStoreService dataStoreService;
 
     @Autowired
-    ProductOrderRepository productOrderRepository;
+    private DataStoreService dataStoreService;
 
-    @Autowired
-    public DataStoreController(DataStoreService dataStoreService) {
-        this.dataStoreService = dataStoreService;
-    }
+//    @Autowired
+//    ProductOrderRepository productOrderRepository;
+
+//    @Autowired
+//    public DataStoreController(DataStoreService dataStoreService) {
+//        this.dataStoreService = dataStoreService;
+//    }
 
     //@RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
     @Override
@@ -53,15 +55,15 @@ public class DataStoreController implements ProductOrderApi {
 
     /*---API Test----*/
 
-    //    get all product order in mongodb database
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public ResponseEntity<List<ProductOrder>> getAllProductOrder(){
-        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
-    }
-
-    //    save a document in ProductOrder collections
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<ProductOrder> saveProductOrder(@RequestBody ProductOrder productOrder){
-        return new ResponseEntity<>(productOrderRepository.save(productOrder), HttpStatus.CREATED);
-    }
+//    //    get all product order in mongodb database
+//    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+//    public ResponseEntity<List<ProductOrder>> getAllProductOrder(){
+//        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
+//    }
+//
+//    //    save a document in ProductOrder collections
+//    @RequestMapping(value = "/add", method = RequestMethod.POST)
+//    public ResponseEntity<ProductOrder> saveProductOrder(@RequestBody ProductOrder productOrder){
+//        return new ResponseEntity<>(productOrderRepository.save(productOrder), HttpStatus.CREATED);
+//    }
 }

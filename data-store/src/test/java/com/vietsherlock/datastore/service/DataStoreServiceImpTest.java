@@ -44,13 +44,21 @@ class DataStoreServiceImpTest {
     }
 
     @Test
-//    @Disabled
-    void canAddProductOrder() {
+    @Disabled
+    void canAddProductOrderCreate() {
         //given
         ProductOrderCreate productOrderCreate = new ProductOrderCreate();
-        productOrderCreate.setCategory(ProductOrderCreate.CategoryEnum.NEW);
         productOrderCreate.setExternalId("61721fde3ff88b21ec0a53be");
-        productOrderCreate.setSubscription(null);
-        productOrderCreate.setBillingAccount(null);
+
+        //when
+        underTest.addProductOrder(productOrderCreate);
+
+        //then
+        ArgumentCaptor<ProductOrderCreate> productOrderCreateArgumentCaptor
+                = ArgumentCaptor.forClass(ProductOrderCreate.class);
+        verify(productOrderCreateRepository).save(productOrderCreateArgumentCaptor.capture());
+        ProductOrderCreate capturedProductOrderCreate = productOrderCreateArgumentCaptor.getValue();
+        assertThat(capturedProductOrderCreate).isEqualTo(productOrderCreate);
+
     }
 }
