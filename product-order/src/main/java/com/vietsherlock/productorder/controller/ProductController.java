@@ -19,16 +19,19 @@ public class ProductController implements ProductOrderApi {
 
     Logger logger = LoggerFactory.getLogger(ProductController.class);
     ProductOrderMapper productOrderMapper = new ProductOrderMapperImpl();
-    ApiClient apiClient = new ApiClient();
+    ApiClient apiClient;
+    com.vietsherlock.productorder.restclient.api.ProductOrderApi productOrderApi_Client;
+
+    ProductController(){
+        apiClient = new ApiClient();
+        apiClient.setBasePath("http://localhost:8081");
+        productOrderApi_Client = new com.vietsherlock.productorder.restclient.api.ProductOrderApi(apiClient);
+    }
+
 
     @Override
     public ResponseEntity<CreateOrderResponse> createProductOrder(ProductOrderCreate body, Boolean readyToProcess) {
         logger.info("createProductOrder POST method is called!");
-
-//        apiClient.setBasePath("http://localhost:8081/productOrderingManagement/v2");
-        apiClient.setBasePath("http://localhost:8081");
-        com.vietsherlock.productorder.restclient.api.ProductOrderApi productOrderApi_Client
-                = new com.vietsherlock.productorder.restclient.api.ProductOrderApi(apiClient);
 
         //mapper ProductOrderCreate server to client
         com.vietsherlock.productorder.restclient.model.ProductOrderCreate productOrderCreate_Client
@@ -39,10 +42,9 @@ public class ProductController implements ProductOrderApi {
             = productOrderApi_Client.createProductOrder(productOrderCreate_Client, readyToProcess);
         logger.info("CreateOrderResponse response from data-store microservice! " + createOrderResponse_Client);
 
-        return new ResponseEntity<>(
-                productOrderMapper.createOrderResponseClientToServer(createOrderResponse_Client)
-                , HttpStatus.ACCEPTED
-        );
+        CreateOrderResponse createOrderResponse_Server = productOrderMapper.createOrderResponseClientToServer(createOrderResponse_Client);
+
+        return new ResponseEntity<>(createOrderResponse_Server, HttpStatus.ACCEPTED);
 
     }
 
@@ -55,10 +57,6 @@ public class ProductController implements ProductOrderApi {
         ProductOrder productOrder_Server = new ProductOrder();
         com.vietsherlock.productorder.restclient.model.ProductOrder productOrder_Client = new com.vietsherlock.productorder.restclient.model.ProductOrder();
 
-//        apiClient.setBasePath("http://localhost:8081/productOrderingManagement/v2");
-        apiClient.setBasePath("http://localhost:8081");
-        com.vietsherlock.productorder.restclient.api.ProductOrderApi productOrderApi_Client
-                = new com.vietsherlock.productorder.restclient.api.ProductOrderApi(apiClient);
         productOrder_Client = productOrderApi_Client.retrieveProductOrder(id, fields);
 
         logger.info("ProductOrder data get from data-store microservice with id = " + id + " : " + productOrder_Client);
