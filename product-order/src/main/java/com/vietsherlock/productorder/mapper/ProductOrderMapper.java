@@ -5,7 +5,7 @@ import com.vietsherlock.productorder.server.models.CreateOrderResponse;
 import com.vietsherlock.productorder.server.models.ProductOrder;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ProductOrderMapper {
 
     //Map ProductOrder Client to ProductOrder Server

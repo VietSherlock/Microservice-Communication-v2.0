@@ -701,11 +701,11 @@ components:
         externalId:
           description: Id Externo de la Orden que fue informado al crear la orden.
           type: string
-        createdDate:
-          format: date-time
+        createdDate:      #edited
+#          format: date-time
           description: Fecha de creación de la orden
           type: string
-        lastModifiedDate:
+        lastModifiedDateEdited:      #edited
           format: date-time
           description: Fecha de última modificación de la orden
           type: string
@@ -781,7 +781,8 @@ components:
       properties:
         id:
           description: Identificador externo del item de la orden
-          type: string
+#          type: string
+          type: integer    #edited
         action:
           $ref: '#/components/schemas/OrderItemActionType'
         productOffering:
@@ -928,5 +929,4 @@ components:
         orderId: 5f7dac6cd65fb06f01ef23ac
         status: IN PROGRESS
 tags:
-  -
-    name: productOrder
+  - name: productOrder
