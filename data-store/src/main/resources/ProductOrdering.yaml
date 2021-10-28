@@ -133,7 +133,8 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/ProductOrder'
+#                $ref: '#/components/schemas/ProductOrder'
+                $ref: '#/components/schemas/ProductOrderDTO'
           description: Success
         '400':
           content:
@@ -725,6 +726,110 @@ components:
           description: 'When sub-classing, this defines the sub-class entity name'
           type: string
 
+    ProductOrderDTO:
+      description: Estructura de respuesta para productOrder
+      required:
+        - orderItems
+      type: object
+      properties:
+        id:
+          description: Número de orden de venta.
+          type: string
+        currentStatus:
+          $ref: '#/components/schemas/CurrentStatus'
+        issuesTracking:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssueTrack'
+        href:
+          description: Hyperlink to access the order
+          type: string
+        description:
+          description: Description of the product order
+          type: string
+        externalId:
+          description: Id Externo de la Orden que fue informado al crear la orden.
+          type: string
+        createdDate:
+          format: date-time
+          description: Fecha de creación de la orden
+          type: string
+        lastModifiedDate:
+          format: date-time
+          description: Fecha de última modificación de la orden
+          type: string
+        orderItems:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOrderItemDTO'
+        baseType:
+          description: 'When sub-classing, this defines the super-class'
+          type: string
+        schemaLocation:
+          format: uri
+          description: A URI to a JSON-Schema file that defines additional attributes and relationships
+          type: string
+        type:
+          description: 'When sub-classing, this defines the sub-class entity name'
+          type: string
+
+    ProductOrderItemDTO:
+      description: 'Lista de productos o promocion que se incluye en la orden. '
+      required:
+        - id
+        - action
+      type: object
+      properties:
+        id:
+          description: Identificador externo del item de la orden
+          type: string
+        action:
+          $ref: '#/components/schemas/OrderItemActionType'
+        productOffering:
+          $ref: '#/components/schemas/ProductOfferingRef'
+        deliveryRef:
+          description: Corresponde al identificador de la forma de delivery seleccionada.
+          type: string
+        baseType:
+          description: 'When sub-classing, this defines the super-class'
+          type: string
+        schemaLocation:
+          format: uri
+          description: A URI to a JSON-Schema file that defines additional attributes and relationships
+          type: string
+        type:
+          description: 'When sub-classing, this defines the sub-class entity name'
+          type: string
+
+    ProductOrderItem:
+      description: 'Lista de productos o promocion que se incluye en la orden. '
+      required:
+        - id
+        - action
+      type: object
+      properties:
+        id:
+          description: Identificador externo del item de la orden
+          #          type: string
+          type: integer    #edited
+        action:
+          $ref: '#/components/schemas/OrderItemActionType'
+        productOffering:
+          $ref: '#/components/schemas/ProductOfferingRef'
+        deliveryRef:
+          description: Corresponde al identificador de la forma de delivery seleccionada.
+          type: string
+        baseType:
+          description: 'When sub-classing, this defines the super-class'
+          type: string
+        schemaLocation:
+          format: uri
+          description: A URI to a JSON-Schema file that defines additional attributes and relationships
+          type: string
+        type:
+          description: 'When sub-classing, this defines the sub-class entity name'
+          type: string
     ProductOrder_Create: #post
       description: >-
         Definition de request para crear una orden de venta en el CRM FAN Skipped properties:
@@ -772,34 +877,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RelatedEntityRef'
-    ProductOrderItem:
-      description: 'Lista de productos o promocion que se incluye en la orden. '
-      required:
-        - id
-        - action
-      type: object
-      properties:
-        id:
-          description: Identificador externo del item de la orden
-#          type: string
-          type: integer    #edited
-        action:
-          $ref: '#/components/schemas/OrderItemActionType'
-        productOffering:
-          $ref: '#/components/schemas/ProductOfferingRef'
-        deliveryRef:
-          description: Corresponde al identificador de la forma de delivery seleccionada.
-          type: string
-        baseType:
-          description: 'When sub-classing, this defines the super-class'
-          type: string
-        schemaLocation:
-          format: uri
-          description: A URI to a JSON-Schema file that defines additional attributes and relationships
-          type: string
-        type:
-          description: 'When sub-classing, this defines the sub-class entity name'
-          type: string
     ProductOrder_Update:
       description: ''
       type: object

@@ -1,13 +1,11 @@
 package com.vietsherlock.productorder.controller;
 
-import com.vietsherlock.productorder.entity.ProductOrderDTO;
-import com.vietsherlock.productorder.entity.ProductOrderItemDTO;
+import com.vietsherlock.productorder.entity.ProductOrder;
 import com.vietsherlock.productorder.mapper.ProductOrderMapper;
 import com.vietsherlock.productorder.mapper.ProductOrderMapperImpl;
 import com.vietsherlock.productorder.restclient.invoker.ApiClient;
 import com.vietsherlock.productorder.server.api.ProductOrderApi;
 import com.vietsherlock.productorder.server.models.CreateOrderResponse;
-import com.vietsherlock.productorder.server.models.ProductOrder;
 import com.vietsherlock.productorder.server.models.ProductOrderCreate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +21,16 @@ public class ProductController implements ProductOrderApi {
     ApiClient apiClient;
 
     com.vietsherlock.productorder.restclient.api.ProductOrderApi productOrderApi_Client;
-    ProductOrder productOrder_Server;
+    com.vietsherlock.productorder.server.models.ProductOrder productOrder_Server;
     com.vietsherlock.productorder.restclient.model.ProductOrder productOrder_Client;
-    ProductOrderDTO productOrderDTO;
 
     ProductController(){
         apiClient = new ApiClient();
         apiClient.setBasePath("http://localhost:8081");
         productOrderApi_Client = new com.vietsherlock.productorder.restclient.api.ProductOrderApi(apiClient);
-        productOrder_Server = new ProductOrder();
+        productOrder_Server = new com.vietsherlock.productorder.server.models.ProductOrder();
         productOrder_Client = new com.vietsherlock.productorder.restclient.model.ProductOrder();
-        productOrderDTO = new ProductOrderDTO();
+//        productOrderDTO = new ProductOrder();
     }
 
 
@@ -58,14 +55,15 @@ public class ProductController implements ProductOrderApi {
 
     //@RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<ProductOrder> retrieveProductOrder(String id, String fields) {
+    public ResponseEntity<com.vietsherlock.productorder.server.models.ProductOrder> retrieveProductOrder(String id, String fields) {
 
         logger.info("retrieveProductOrderById is called!");
+        ProductOrder productOrder = new ProductOrder();
 
-        productOrder_Client = productOrderApi_Client.retrieveProductOrder(id, fields);
+//        productOrder = (ProductOrder) productOrderApi_Client.retrieveProductOrder(id, fields);
 //        Object object = productOrderApi_Client.retrieveProductOrder(id, fields);
-//        productOrderDTO = (ProductOrderDTO) productOrderApi_Client.retrieveProductOrder(id, fields);
-        logger.info("ProductOrder data get from data-store microservice with id = " + id + " : " + productOrderDTO);
+        productOrder_Client = productOrderApi_Client.retrieveProductOrder(id, fields);
+        logger.info("ProductOrder data get from data-store microservice with id = " + id + " : " + productOrder);
 
         productOrder_Server = productOrderMapper.productOrderClientToServer(productOrder_Client);
 

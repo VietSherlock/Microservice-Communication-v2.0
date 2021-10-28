@@ -1,5 +1,7 @@
 package com.vietsherlock.datastore.service;
 
+import com.vietsherlock.datastore.mapper.ProductOrderMapper;
+//import com.vietsherlock.datastore.mapper.ProductOrderMapperImpl;
 import com.vietsherlock.datastore.models.*;
 import com.vietsherlock.datastore.repository.ProductOrderCreateRepository;
 import com.vietsherlock.datastore.repository.ProductOrderRepository;
@@ -14,16 +16,18 @@ public class DataStoreServiceImp implements DataStoreService{
     private static final Logger logger = LoggerFactory.getLogger(DataStoreServiceImp.class);
     private final ProductOrderRepository productOrderRepository;
     private final ProductOrderCreateRepository productOrderCreateRepository;
+    private final ProductOrderMapper productOrderMapper;
 
     @Autowired
-    public DataStoreServiceImp(ProductOrderRepository productOrderRepository, ProductOrderCreateRepository productOrderCreateRepository) {
+    public DataStoreServiceImp(ProductOrderRepository productOrderRepository, ProductOrderCreateRepository productOrderCreateRepository, ProductOrderMapper productOrderMapper) {
         this.productOrderRepository = productOrderRepository;
         this.productOrderCreateRepository = productOrderCreateRepository;
+        this.productOrderMapper = productOrderMapper;
     }
 
-    public ProductOrder getProductOrderByID(String id){
-//        logger.info("The getProductOrderByID function has been called where the ProductOrder data by id is stored");
-        return productOrderRepository.findAllById(id);
+    public ProductOrderDTO getProductOrderByID(String id){
+        ProductOrderDTO productOrderDTO = productOrderMapper.productOrderToDTO(productOrderRepository.findAllById(id));
+        return productOrderDTO;
     }
 
     public CreateOrderResponse addProductOrder(ProductOrderCreate productOrderCreate){
