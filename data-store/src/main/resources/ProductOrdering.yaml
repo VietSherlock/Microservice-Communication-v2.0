@@ -248,6 +248,58 @@ components:
             type: string
         name:
           description: 'Estado de procesamiento de la orden. '
+#          enum:
+#            - Acknowledged
+#            - InProgress
+#            - Pending
+#            - Rejected
+#            - Held
+#            - AssessingCancellation
+#            - PendingCancellation
+#            - Cancelled
+#            - Completed
+#            - Failed
+#            - Partial
+#            - Unknown
+          type: string
+        description:
+          description: Breve description del estado del procesamiento retornado.
+          type: string
+          example: >-
+            Este estado indica que la orden fue aceptada para procesarse, pero aun es factible de
+            ser editada por el consumidor
+        defaultPreviousStatus:
+          description: ''
+          type: string
+          example: PENDING
+        defaultNextStatus:
+          description: ''
+          type: string
+
+
+
+    CurrentStatusDTO:
+      description: Estado de procesamiento de la orden.
+      required:
+        - name
+      type: object
+      properties:
+        vlocityStatus:
+          description: >-
+            Corresponde al estado de la orden en Vlocity.  Este estado se retorna solo cuando se
+            generó la orden en el CRM.
+          type: string
+        previousStates:
+          description: ''
+          type: array
+          items:
+            type: string
+        nextStates:
+          type: array
+          items:
+            type: string
+        name:
+          description: 'Estado de procesamiento de la orden. '
           enum:
             - Acknowledged
             - InProgress
@@ -275,6 +327,7 @@ components:
         defaultNextStatus:
           description: ''
           type: string
+
     Delivery:
       description: Datos referentes a la forma de entrega seleccionada.
       required:
@@ -736,7 +789,8 @@ components:
           description: Número de orden de venta.
           type: string
         currentStatus:
-          $ref: '#/components/schemas/CurrentStatus'
+#          $ref: '#/components/schemas/CurrentStatus'
+          $ref: '#/components/schemas/CurrentStatusDTO'
         issuesTracking:
           type: array
           items:
