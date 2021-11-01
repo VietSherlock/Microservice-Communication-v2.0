@@ -246,7 +246,8 @@ components:
           type: array
           items:
             type: string
-        name:
+        name:                 #edited
+
           description: 'Estado de procesamiento de la orden. '
 #          enum:
 #            - Acknowledged

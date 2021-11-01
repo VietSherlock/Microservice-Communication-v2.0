@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ProductOrderItemMapper {
-//    @Mapping(source = "id", target = "id")
+
     ProductOrderItemDTO productOItoDTO (ProductOrderItem productOrderItem);
 
 }

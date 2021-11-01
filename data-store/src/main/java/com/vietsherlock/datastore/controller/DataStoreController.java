@@ -39,7 +39,7 @@ public class DataStoreController implements ProductOrderApi {
     @Override
     public ResponseEntity<ProductOrderDTO> retrieveProductOrder(String id, String fields) {
         logger.info("Get method in DataStoreController is called!");
-        logger.info("data: " + dataStoreService.getProductOrderByID(id));
+//        logger.info("data: " + dataStoreService.getProductOrderByID(id));
         return new ResponseEntity<>(dataStoreService.getProductOrderByID(id), HttpStatus.OK);
     }
 
