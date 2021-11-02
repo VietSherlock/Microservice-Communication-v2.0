@@ -247,7 +247,6 @@ components:
           items:
             type: string
         name:                 #edited
-
           description: 'Estado de procesamiento de la orden. '
 #          enum:
 #            - Acknowledged

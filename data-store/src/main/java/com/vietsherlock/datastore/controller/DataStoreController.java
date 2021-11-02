@@ -28,18 +28,14 @@ public class DataStoreController implements ProductOrderApi {
     private DataStoreService dataStoreService;
 
     @Autowired
-    ProductOrderRepository productOrderRepository;
-
-    @Autowired
     public DataStoreController(DataStoreServiceImp dataStoreServiceImp) {
         this.dataStoreService = dataStoreServiceImp;
     }
 
-    @RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
+    //@RequestMapping(value = "/productOrder/{id}", method = RequestMethod.GET)
     @Override
     public ResponseEntity<ProductOrderDTO> retrieveProductOrder(String id, String fields) {
         logger.info("Get method in DataStoreController is called!");
-//        logger.info("data: " + dataStoreService.getProductOrderByID(id));
         return new ResponseEntity<>(dataStoreService.getProductOrderByID(id), HttpStatus.OK);
     }
 
@@ -56,21 +52,24 @@ public class DataStoreController implements ProductOrderApi {
 
     /*---API Test----*/
 
+    //    @Autowired
+//    ProductOrderRepository productOrderRepository;
+
     //    get all product order in mongodb database
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public ResponseEntity<List<ProductOrder>> getAllProductOrder(){
-        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
-    }
-
-    //    save a document in ProductOrder collections
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<ProductOrder> saveProductOrder(@RequestBody ProductOrder productOrder){
-        return new ResponseEntity<>(productOrderRepository.save(productOrder), HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteProductOrder(String id){
-        productOrderRepository.deleteById(id);
-        return new ResponseEntity<>( HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+//    public ResponseEntity<List<ProductOrder>> getAllProductOrder(){
+//        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
+//    }
+//
+//    //    save a document in ProductOrder collections
+//    @RequestMapping(value = "/add", method = RequestMethod.POST)
+//    public ResponseEntity<ProductOrder> saveProductOrder(@RequestBody ProductOrder productOrder){
+//        return new ResponseEntity<>(productOrderRepository.save(productOrder), HttpStatus.CREATED);
+//    }
+//
+//    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+//    public ResponseEntity<?> deleteProductOrder(String id){
+//        productOrderRepository.deleteById(id);
+//        return new ResponseEntity<>( HttpStatus.OK);
+//    }
 }
