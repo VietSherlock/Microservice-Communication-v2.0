@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class DataStoreServiceImp implements DataStoreService{
 
     private static final Logger logger = LoggerFactory.getLogger(DataStoreServiceImp.class);
+
     private final ProductOrderRepository productOrderRepository;
     private final ProductOrderCreateRepository productOrderCreateRepository;
     private final ProductOrderMapper productOrderMapper;
@@ -30,7 +31,9 @@ public class DataStoreServiceImp implements DataStoreService{
         logger.info("Name field, type Enum in CurrentStatusDTO: "
                 + productOrderMapper.productOrderToDTO(productOrderRepository.findAllById(id)).getCurrentStatus().getName());
 
-        ProductOrderDTO productOrderDTO = productOrderMapper.productOrderToDTO(productOrderRepository.findAllById(id));
+        ProductOrderDTO productOrderDTO
+                = productOrderMapper.productOrderToDTO(productOrderRepository.findAllById(id));
+        logger.info("name field in CurrentStatus: " + productOrderRepository.findAllById(id).getCurrentStatus().getName());
         return productOrderDTO;
     }
 

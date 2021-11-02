@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 //@Mapper(componentModel = "spring", uses = {EnumMapper.class})
 @Mapper(componentModel = "spring")
 public interface CurrentStatusMapper {
-
+//    @Mapping(source = "name", target = "name")
     @Mapping(target = "name",
             expression = "java(stringToNameEnum(currentStatus.getName()))")
     CurrentStatusDTO currentStatusToDTO(CurrentStatus currentStatus);

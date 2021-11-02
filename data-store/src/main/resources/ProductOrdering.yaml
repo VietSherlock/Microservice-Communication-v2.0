@@ -313,6 +313,7 @@ components:
             - Failed
             - Partial
             - Unknown
+            - Nulll
           type: string
         description:
           description: Breve description del estado del procesamiento retornado.

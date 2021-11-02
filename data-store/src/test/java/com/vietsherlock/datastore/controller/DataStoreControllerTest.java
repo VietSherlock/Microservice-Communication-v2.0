@@ -35,7 +35,7 @@ class DataStoreControllerTest {
     CreateOrderResponse createOrderResponse;
 
     DataStoreControllerTest(){
-        /** create productOrder **/
+        /** create productOrderDTO **/
         ProductOrderItemDTO orderItem1 = new ProductOrderItemDTO();
         orderItem1.setId("101");
         orderItem1.setAction(OrderItemActionType.ADD);
@@ -49,20 +49,28 @@ class DataStoreControllerTest {
         productOrderDTO.setHref("tmfAPI/productOrdering/productOrder/11.org");
         productOrderDTO.setExternalId("Telco01");
         productOrderDTO.setOrderItems(Arrays.asList(orderItem1, orderItem2));
-//        /** create productOrderCreate  **/
-//        RelatedChannel relatedChannel = new RelatedChannel();
-//        relatedChannel.setId("1");
-//        relatedChannel.setName(RelatedChannel.NameEnum.WEB);
-//        relatedChannel.setRole("submitChannel");
-//
-//        productOrderCreate = new ProductOrderCreate();
-//        productOrderCreate.setChannel(relatedChannel);
-//        productOrderCreate.setOrderItems(Arrays.asList(orderItem1, orderItem2));
-//        productOrderCreate.setExternalId("5f7dac6cd65fb06f01ef23ac");
-//        /** create createOrderResponse **/
-//        createOrderResponse = new CreateOrderResponse();
-//        createOrderResponse.setOrderId(productOrderCreate.getExternalId());
-//        createOrderResponse.setStatus("In Progress!");
+        /** create productOrderCreate  **/
+        RelatedChannel relatedChannel = new RelatedChannel();
+        relatedChannel.setId("1");
+        relatedChannel.setName(RelatedChannel.NameEnum.WEB);
+        relatedChannel.setRole("submitChannel");
+
+        ProductOrderItem productOrderItem1 = new ProductOrderItem();
+        productOrderItem1.setId(101);
+        productOrderItem1.setAction(OrderItemActionType.ADD);
+
+        ProductOrderItem productOrderItem2 = new ProductOrderItem();
+        productOrderItem2.setId(102);
+        productOrderItem2.setAction(OrderItemActionType.CHANGE);
+
+        productOrderCreate = new ProductOrderCreate();
+        productOrderCreate.setChannel(relatedChannel);
+        productOrderCreate.setOrderItems(Arrays.asList(productOrderItem1, productOrderItem2));
+        productOrderCreate.setExternalId("5f7dac6cd65fb06f01ef23ac");
+        /** create createOrderResponse **/
+        createOrderResponse = new CreateOrderResponse();
+        createOrderResponse.setOrderId(productOrderCreate.getExternalId());
+        createOrderResponse.setStatus("IN PROGRESS");
 
     }
 
@@ -92,6 +100,6 @@ class DataStoreControllerTest {
        mockMvc.perform(mockRequest)
                .andExpect(status().isCreated())
                .andExpect(jsonPath("$", notNullValue()))
-               .andExpect(jsonPath("$.status", is("In Progress!")));
+               .andExpect(jsonPath("$.status", is("IN PROGRESS")));
     }
 }
