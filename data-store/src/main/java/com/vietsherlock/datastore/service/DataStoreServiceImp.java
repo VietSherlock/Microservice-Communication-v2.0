@@ -26,13 +26,14 @@ public class DataStoreServiceImp implements DataStoreService{
     }
 
     public ProductOrderDTO getProductOrderByID(String id){
-        logger.info("Name field, type String in CurrentStatus: " + productOrderRepository.findAllById(id).getCurrentStatus().getName());
-        logger.info("=========Mapping==========>");
-        logger.info("Name field, type Enum in CurrentStatusDTO: "
-                + productOrderMapper.productOrderToDTO(productOrderRepository.findAllById(id)).getCurrentStatus().getName());
+//        logger.info("Name field, type String in CurrentStatus: " + productOrderRepository.findAllById(id).getCurrentStatus().getName());
+//        logger.info("=========Mapping==========>");
+//        logger.info("Name field, type Enum in CurrentStatusDTO: "
+//                + productOrderMapper.productOrderToDTO(productOrderRepository.findAllById(id)).getCurrentStatus().getName());
 
         ProductOrderDTO productOrderDTO
                 = productOrderMapper.productOrderToDTO(productOrderRepository.findAllById(id));
+
         logger.info("name field in CurrentStatus: " + productOrderRepository.findAllById(id).getCurrentStatus().getName());
         return productOrderDTO;
     }

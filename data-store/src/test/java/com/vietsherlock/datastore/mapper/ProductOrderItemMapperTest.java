@@ -5,9 +5,7 @@ import com.vietsherlock.datastore.models.ProductOfferingRef;
 import com.vietsherlock.datastore.models.ProductOrderItem;
 import com.vietsherlock.datastore.models.ProductOrderItemDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 class ProductOrderItemMapperTest {
 
@@ -44,8 +42,6 @@ class ProductOrderItemMapperTest {
         assertThat(expectedMapping.getBaseType()).isEqualTo(productOrderItem.getBaseType());
         assertThat(expectedMapping.getSchemaLocation()).isEqualTo(productOrderItem.getSchemaLocation());
         assertThat(expectedMapping.getType()).isEqualTo(productOrderItem.getType());
-
-
 
     }
 }
