@@ -52,15 +52,15 @@ public class DataStoreController implements ProductOrderApi {
 
     /*---API Test----*/
 
-    //    @Autowired
-//    ProductOrderRepository productOrderRepository;
+        @Autowired
+    ProductOrderRepository productOrderRepository;
 
-    //    get all product order in mongodb database
-//    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-//    public ResponseEntity<List<ProductOrder>> getAllProductOrder(){
-//        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
-//    }
-//
+//        get all product order in mongodb database
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductOrder>> getAllProductOrder(){
+        return new ResponseEntity<>(productOrderRepository.findAll(), HttpStatus.OK);
+    }
+
 //    //    save a document in ProductOrder collections
 //    @RequestMapping(value = "/add", method = RequestMethod.POST)
 //    public ResponseEntity<ProductOrder> saveProductOrder(@RequestBody ProductOrder productOrder){
